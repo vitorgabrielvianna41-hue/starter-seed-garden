@@ -1,6 +1,8 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useEffect, useMemo, useState } from "react";
 import {
+  CalendarClock,
+  Car,
   ClipboardList,
   CheckCircle2,
   Wallet,
@@ -14,8 +16,6 @@ import { brl } from "@/lib/parts";
 import { Logo } from "@/components/Logo";
 import { BottomNav } from "@/components/BottomNav";
 import { StatusBadge, statusBarColor } from "@/components/StatusBadge";
-import workshopImage from "@/assets/funilaria-oficina.jpg";
-import { Button } from "@/components/ui/button";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -93,23 +93,25 @@ function Dashboard() {
             <p className="text-xs text-muted-foreground tracking-wide">
               Bem-vindo de volta 👋
             </p>
-            <h2 className="font-display text-2xl md:text-3xl text-foreground truncate">
+            <h1 className="font-display text-2xl md:text-3xl text-foreground truncate">
               {nomeOficina}
-            </h2>
+            </h1>
           </div>
         </div>
       </header>
 
-      <section className="workshop-band relative overflow-hidden">
-        <img src={workshopImage} alt="Carro vermelho em uma oficina de funilaria" width={1536} height={1024} className="absolute inset-0 h-full w-full object-cover object-center" />
-        <div className="workshop-shade absolute inset-0" />
-        <div className="relative max-w-7xl mx-auto px-5 lg:px-10 py-10 sm:py-12">
-          <p className="text-primary font-semibold text-xs uppercase mb-3">Funilaria & pintura automotiva</p>
-          <h1 className="font-display text-4xl sm:text-5xl text-foreground leading-none">ORÇA FUNILARIA <span className="text-primary">PRO</span></h1>
-          <div className="mt-6 flex flex-wrap gap-3">
-            <Button asChild size="lg"><Link to="/novo"><Plus />Novo orçamento</Link></Button>
-            <Button asChild variant="secondary" size="lg"><Link to="/checklist"><ClipboardList />Inspecionar carro</Link></Button>
-          </div>
+      <section className="max-w-7xl mx-auto px-5 lg:px-10 pt-6 lg:pt-8">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 lg:gap-5">
+          <FeatureCard
+            icon={CalendarClock}
+            title="Agenda de entregas"
+            text="Organiza prazos previstos e avisa sobre serviços atrasados."
+          />
+          <FeatureCard
+            icon={Car}
+            title="Controle de veículos"
+            text="Mostra quais carros estão aguardando, em reparo, na pintura ou prontos."
+          />
         </div>
       </section>
 
@@ -290,6 +292,33 @@ function KpiCard({ label, value, icon: Icon, hint, hintTone = "muted" }: KpiCard
           {hint}
         </p>
       )}
+    </div>
+  );
+}
+
+function FeatureCard({
+  icon: Icon,
+  title,
+  text,
+}: {
+  icon: React.ComponentType<{ size?: number; className?: string; strokeWidth?: number }>;
+  title: string;
+  text: string;
+}) {
+  return (
+    <div className="relative overflow-hidden rounded-2xl bg-card border border-border p-5 lg:p-6 pl-6 lg:pl-7">
+      <span className="absolute left-0 top-4 bottom-4 w-1 rounded-r-full bg-primary" />
+      <div className="flex items-start gap-4">
+        <span className="grid place-items-center size-11 shrink-0 rounded-xl bg-border border border-border">
+          <Icon size={20} className="text-primary" strokeWidth={2.25} />
+        </span>
+        <div className="min-w-0">
+          <h2 className="font-display text-lg lg:text-xl tracking-wide text-foreground">
+            {title}
+          </h2>
+          <p className="mt-1 text-sm text-muted-foreground leading-relaxed">{text}</p>
+        </div>
+      </div>
     </div>
   );
 }
