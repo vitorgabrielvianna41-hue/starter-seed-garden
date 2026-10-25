@@ -93,9 +93,16 @@ function ChecklistPage() {
   const navigate = useNavigate();
   const [tipo, setTipo] = useState<ChecklistTipo>("hatch");
   const [fase, setFase] = useState<ChecklistFase>("entrada");
-  const [checklist, setChecklist] = useState<Checklist>(() =>
-    emptyChecklist("hatch", "entrada"),
-  );
+  const [checklist, setChecklist] = useState<Checklist>(() => ({
+    ...emptyChecklist("hatch", "entrada"),
+    id: "",
+    os: "",
+  }));
+  // Gera id/OS apenas no cliente: evita mismatch de hidratação (Math.random/Date no SSR)
+  useEffect(() => {
+    setChecklist(emptyChecklist(tipo, fase));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
   const [secoesAbertas, setSecoesAbertas] = useState<Record<string, boolean>>({
     externa: true,
   });
