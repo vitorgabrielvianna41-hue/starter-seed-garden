@@ -97,6 +97,8 @@ function ChecklistPage() {
     ...emptyChecklist("hatch", "entrada"),
     id: "",
     os: "",
+    createdAt: "",
+    updatedAt: "",
   }));
   // Gera id/OS apenas no cliente: evita mismatch de hidratação (Math.random/Date no SSR)
   useEffect(() => {
